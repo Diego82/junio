@@ -1,10 +1,10 @@
-package proyecto;
+package gui;
 
+import bbdd.*;
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
-import java.awt.FlowLayout;
 import java.awt.BorderLayout;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -13,10 +13,17 @@ import java.awt.Component;
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Formulario {
 
 	private JFrame frame;
+	private JTable tabla;
+	private ArrayList<UsuarioDTO> listado;
+	private ArrayList<UsuarioDTO> listadoTabla;
 
 	/**
 	 * Launch the application.
@@ -69,13 +76,38 @@ public class Formulario {
 		JMenu mnArchivo = new JMenu("Archivo");
 		menuBar.add(mnArchivo);
 		
-		JMenuItem mntmCargaBBDD = new JMenuItem("Cargar Base de Datos");
+		JMenuItem mntmCargaBBDD = new JMenuItem("Cargar base de datos");
+		mntmCargaBBDD.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+
+				UsuarioDAOImp uImp = new UsuarioDAOImp();
+				listado = (ArrayList<UsuarioDTO>) uImp.getUsuarios();
+				
+				listadoTabla = (ArrayList<UsuarioDTO>) cargarDatosTabla(listado, 0, 10);
+				System.out.println("lista inicial.................");
+				System.out.println(listado);
+				System.out.println("longitud de la lista"+listado.size());
+				System.out.println("lista final...................");
+				System.out.println(listadoTabla);
+				System.out.println("longitud de la lista"+listadoTabla.size());
+												
+				MiTablaModel modelo = new MiTablaModel(listado);
+				
+				tabla = new JTable(modelo);
+				panelCentral.add(tabla);
+			}
+		});
 		mnArchivo.add(mntmCargaBBDD);
 		
-		JMenuItem mntmGuardar = new JMenuItem("Guardar");
+		JMenuItem mntmGuardar = new JMenuItem("Guardar base de datos");
 		mnArchivo.add(mntmGuardar);
 		
 		JMenuItem mntmSalir = new JMenuItem("Salir");
+		mntmSalir.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.exit(-1);
+			}
+		});
 		mnArchivo.add(mntmSalir);
 		
 		Component horizontalGlue = Box.createHorizontalGlue();
@@ -85,6 +117,28 @@ public class Formulario {
 		menuBar.add(mnAyuda);
 		
 		JMenuItem mntmAcercaDe = new JMenuItem("Acerca de");
+		mntmAcercaDe.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JOptionPane.showMessageDialog(frame, "Creado por Diego Jesus Torres Peinado", "Información", JOptionPane.INFORMATION_MESSAGE);
+			}
+		});
 		mnAyuda.add(mntmAcercaDe);
 	}
+	public List<UsuarioDTO> cargarDatosTabla(ArrayList<UsuarioDTO> listado, int inicio, int fin){
+		ArrayList<UsuarioDTO> listaAux = new ArrayList<UsuarioDTO>();
+		for(int i = inicio ; i < fin ; i++){
+			listaAux.add(listado.get(i));
+		}
+		return listaAux;
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }
