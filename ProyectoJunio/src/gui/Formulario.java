@@ -1,33 +1,42 @@
 package gui;
 
 import bbdd.*;
+
 import java.awt.EventQueue;
+
 import javax.swing.JFrame;
+
 import java.awt.BorderLayout;
+
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
+
 import java.awt.Component;
+
 import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JPanel;
+
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.swing.JScrollPane;
 
 public class Formulario {
 
 	private JFrame frame;
-	private JTable tabla;
-	private ArrayList<UsuarioDTO> listado;
-	private ArrayList<UsuarioDTO> listadoTabla;
+	private JTable table;
+	private MiTablaModel modelo;
+	private List<UsuarioDTO> listado;
 
 	/**
 	 * Launch the application.
 	 */
+	
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
@@ -61,14 +70,34 @@ public class Formulario {
 		frame.getContentPane().add(panelSur, BorderLayout.SOUTH);
 		
 		JButton btnAnterior = new JButton("Anterior");
+		btnAnterior.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				modelo.decrementa();
+			}
+		});
 		panelSur.add(btnAnterior);
 		
 		JButton btnSiguiente = new JButton("Siguiente");
+		btnSiguiente.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				modelo.incrementa();
+			}
+		});
 		panelSur.add(btnSiguiente);
 		
-		JPanel panelCentral = new JPanel();
-		frame.getContentPane().add(panelCentral, BorderLayout.CENTER);
-		panelCentral.setLayout(new BorderLayout(0, 0));
+		JScrollPane scrollPane = new JScrollPane();
+		frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
+		
+		JButton btnUpdate = new JButton("Actualizar Campo");
+		scrollPane.setRowHeaderView(btnUpdate);
+		
+		
 		
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
@@ -81,20 +110,16 @@ public class Formulario {
 			public void actionPerformed(ActionEvent e) {
 
 				UsuarioDAOImp uImp = new UsuarioDAOImp();
-				listado = (ArrayList<UsuarioDTO>) uImp.getUsuarios();
+				listado = uImp.getUsuario();
 				
-				listadoTabla = (ArrayList<UsuarioDTO>) cargarDatosTabla(listado, 0, 10);
-				System.out.println("lista inicial.................");
 				System.out.println(listado);
-				System.out.println("longitud de la lista"+listado.size());
-				System.out.println("lista final...................");
-				System.out.println(listadoTabla);
-				System.out.println("longitud de la lista"+listadoTabla.size());
-												
-				MiTablaModel modelo = new MiTablaModel(listado);
 				
-				tabla = new JTable(modelo);
-				panelCentral.add(tabla);
+				modelo = new MiTablaModel(listado);
+				
+				table = new JTable(modelo);
+				scrollPane.setViewportView(table);
+				
+
 			}
 		});
 		mnArchivo.add(mntmCargaBBDD);
@@ -110,35 +135,15 @@ public class Formulario {
 		});
 		mnArchivo.add(mntmSalir);
 		
-		Component horizontalGlue = Box.createHorizontalGlue();
-		menuBar.add(horizontalGlue);
-		
 		JMenu mnAyuda = new JMenu("Ayuda");
 		menuBar.add(mnAyuda);
 		
 		JMenuItem mntmAcercaDe = new JMenuItem("Acerca de");
 		mntmAcercaDe.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JOptionPane.showMessageDialog(frame, "Creado por Diego Jesus Torres Peinado", "Información", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(frame, "Creado por Diego Jesús Torres Peinado", "Información", JOptionPane.INFORMATION_MESSAGE);
 			}
 		});
 		mnAyuda.add(mntmAcercaDe);
-	}
-	public List<UsuarioDTO> cargarDatosTabla(ArrayList<UsuarioDTO> listado, int inicio, int fin){
-		ArrayList<UsuarioDTO> listaAux = new ArrayList<UsuarioDTO>();
-		for(int i = inicio ; i < fin ; i++){
-			listaAux.add(listado.get(i));
-		}
-		return listaAux;
-	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	}	
 }

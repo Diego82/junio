@@ -1,3 +1,8 @@
+/**
+ * @author Diego Jesús Torres Peinado
+ * @version 1.0
+ * 
+ */
 package bbdd;
 
 import java.sql.Connection;
@@ -12,7 +17,7 @@ public class UsuarioDAOImp implements UsuarioDAO {
 	//obtenemos la conexión como un atributo de la clase
 	Connection conexion = Conexion.getConexion();
 	@Override
-	public List<UsuarioDTO> getUsuarios() {
+	public List<UsuarioDTO> getUsuario() {
 		List<UsuarioDTO> lista = new ArrayList<UsuarioDTO>();
 		UsuarioDTO usuario =null;
 		//sentencia sql a ejecutar
@@ -34,47 +39,14 @@ public class UsuarioDAOImp implements UsuarioDAO {
 		}
 		return lista;
 	}
-	
-	@Override
-	public void addUsuario(UsuarioDTO u) {
-		//sentencia sql a ejecutar
-				String sql = "insert into datosComercio (establecimiento, actividad, direccion, telefono) values (? ,?, ?, ?)";
-				try {
-					PreparedStatement s = conexion.prepareStatement(sql);
-					s.setString(1, u.getEstablecimiento());
-					s.setString(2, u.getActividad());
-					s.setString(3, u.getDireccion());
-					s.setInt(4, u.getTelefono());
-					s.executeUpdate();
-				} catch (SQLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-
-	}
-	/*
-	@Override
-	public void eliminarUsuario(UsuarioDTO u) {
-		String sql = "delete from USUARIO where dni= ?";
-		try {
-			PreparedStatement s = conexion.prepareStatement(sql);
-			s.setString(1, u.getDni());
-			s.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-	}
 
 	@Override
 	public void actualizarUsuario(UsuarioDTO u) {
 		// TODO Auto-generated method stub
-		String sql = "UPDATE USUARIO set nombre=? where dni=?";
+		String sql = "UPDATE datosComercio set nombre=? where id=?";
 		try {
 			PreparedStatement s = conexion.prepareStatement(sql);
-			s.setString(1, u.getNombre());
-			s.setString(2, u.getDni());
+			s.setString(1, u.getEstablecimiento());
 			s.executeUpdate();
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
@@ -82,10 +54,16 @@ public class UsuarioDAOImp implements UsuarioDAO {
 		}
 
 	
-	}*/
+	}
 
 	@Override
 	public UsuarioDTO getUsuarioDTO(String dni) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<UsuarioDTO> getComercios() {
 		// TODO Auto-generated method stub
 		return null;
 	}

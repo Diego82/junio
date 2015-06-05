@@ -1,12 +1,17 @@
+/**
+ * @author Diego Jesús Torres Peinado
+ * @version 1.0
+ * 
+ */
+
 package bbdd;
 
 public class UsuarioDTO {
+
 	private String establecimiento;
 	private String actividad;
 	private String direccion;
 	private int telefono;
-	
-	
 	/**
 	 * @param establecimiento
 	 * @param actividad
@@ -20,6 +25,7 @@ public class UsuarioDTO {
 		this.direccion = direccion;
 		this.telefono = telefono;
 	}
+	
 	/**
 	 * @return the establecimiento
 	 */
@@ -73,8 +79,8 @@ public class UsuarioDTO {
 	 */
 	@Override
 	public String toString() {
-		return "UsuarioDTO establecimiento=" + establecimiento + ", actividad="
-				+ actividad + ", direccion=" + direccion + ", telefono="
+		return "UsuarioDTO establecimiento: " + establecimiento + ", actividad: "
+				+ actividad + ", direccion: " + direccion + ", telefono: "
 				+ telefono + "\n";
 	}
 		

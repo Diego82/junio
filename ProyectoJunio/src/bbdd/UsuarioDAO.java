@@ -1,11 +1,16 @@
+/**
+ * @author Diego Jesús Torres Peinado
+ * @version 1.0
+ * 
+ */
+
 package bbdd;
 
 import java.util.List;
 
 public interface UsuarioDAO {
-	List<UsuarioDTO> getUsuarios();
-	void addUsuario(UsuarioDTO u);
-	//void eliminarUsuario(UsuarioDTO u);
-	//void actualizarUsuario(UsuarioDTO u);
-	UsuarioDTO getUsuarioDTO(String dni);
+	List<UsuarioDTO> getComercios();
+	void actualizarUsuario(UsuarioDTO u);
+	UsuarioDTO getUsuarioDTO(String id);
+	List<UsuarioDTO> getUsuario();
 }

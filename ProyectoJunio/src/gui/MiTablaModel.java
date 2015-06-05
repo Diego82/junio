@@ -1,47 +1,110 @@
 package gui;
 
 import bbdd.*;
-import java.util.ArrayList;
+
 import java.util.List;
+
 import javax.swing.table.AbstractTableModel;
 
 public class MiTablaModel extends AbstractTableModel{
 	
-	private List<UsuarioDTO> lista = new ArrayList<UsuarioDTO>();
-	private String[] cabecera = {"Establecimiento","Actividad","Direccion","Telefono"};
+	private List<UsuarioDTO> listadoAux;
+	private String[] cabecera = {"Establecimiento", "Actividad", "Direccion", "Telefono"};
+	private int numerodefilas=10;
+	private int indice=0;
 	
+	public MiTablaModel(List<UsuarioDTO> lista){
+		this.listadoAux = lista;
+	}
 	
-	public MiTablaModel(List<UsuarioDTO> lista) {
-		super();
-		this.lista = lista;
+	public void incrementa(){
+		if (indice+numerodefilas<listadoAux.size()) {
+			indice+=numerodefilas;
+			fireTableChanged(null);
+		}
+		
+	}
+	
+	public void decrementa(){
+		if (indice-numerodefilas>=0){
+			indice-=numerodefilas;
+			fireTableChanged(null);
+		}
+		
+	}
+	
+	@Override
+	public int getColumnCount() {
+		// TODO Auto-generated method stub
+		return 4;
 	}
 
 	@Override
 	public int getRowCount() {
 		// TODO Auto-generated method stub
-		return lista.size();
+		int resto = listadoAux.size()-indice;
+		if (resto>numerodefilas) {
+			return numerodefilas;
+		}
+		else
+			return resto;
 	}
-
+	
 	@Override
-	public int getColumnCount() {
-		// TODO Auto-generated method stub
-		return cabecera.length;
-	}
-
 	public String getColumnName(int col) {
+		// TODO Auto-generated method stub
 		return cabecera[col];
 	}
 	
 	@Override
-	public Object getValueAt(int rowIndex, int columnIndex) {
+	public void setValueAt(Object usuario, int fila, int columna) {
 		// TODO Auto-generated method stub
-		UsuarioDTO p = lista.get(rowIndex);
-		if (columnIndex==0) return p.getEstablecimiento();
-		else if (columnIndex==1) return p.getActividad();
-		else if (columnIndex==2) return p.getDireccion();
-		else if (columnIndex==3) return p.getTelefono();
-		else return "";
+		UsuarioDTO aux = listadoAux.get(fila+indice);
+		String celda = (String) usuario;
+		switch (columna) {
+		case 0:
+			aux.setEstablecimiento(celda);
+			break;
+		case 1:
+			aux.setActividad(celda);
+			break;
+		case 2:
+			aux.setDireccion(celda);
+			break;
+		case 3:
+			try{
+				aux.setTelefono(Integer.parseInt(celda));
+				break;
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+			
+		default:
+		}
+	}
+
+	@Override
+	public Object getValueAt(int fila, int columna) {
+		// TODO Auto-generated method stub
+		UsuarioDTO aux = listadoAux.get(fila+indice);
+		switch (columna) {
+		case 0:
+			return aux.getEstablecimiento();
+		case 1:
+			return aux.getActividad();
+		case 2:
+			return aux.getDireccion();
+		case 3:
+			return aux.getTelefono();
+		default:
+			return "";
+		}
 	}
 	
-
+	@Override
+	public boolean isCellEditable(int fila, int columna) {
+		// TODO Auto-generated method stub
+		return true;
+	}
+	
 }
