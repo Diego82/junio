@@ -9,8 +9,6 @@ package bbdd;
 import java.util.List;
 
 public interface UsuarioDAO {
-	List<UsuarioDTO> getComercios();
-	void actualizarUsuario(UsuarioDTO u);
-	UsuarioDTO getUsuarioDTO(String id);
+	void actualizarUsuario(List<UsuarioDTO> listado, int fila, int columna);
 	List<UsuarioDTO> getUsuario();
 }

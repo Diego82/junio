@@ -26,11 +26,12 @@ public class UsuarioDAOImp implements UsuarioDAO {
 			Statement s =  conexion.createStatement();
 			ResultSet r = s.executeQuery(sql);
 			while(r.next()){
+				int id = r.getInt("id");
 				String establecimiento = r.getString("establecimiento");
 				String actividad = r.getString("actividad");
 				String direccion = r.getString("direccion");
 				int telefono = r.getInt("telefono");
-				usuario = new UsuarioDTO(establecimiento, actividad, direccion, telefono);
+				usuario = new UsuarioDTO(id, establecimiento, actividad, direccion, telefono);
 				lista.add(usuario);
 			}
 		} catch (SQLException e) {
@@ -40,32 +41,62 @@ public class UsuarioDAOImp implements UsuarioDAO {
 		return lista;
 	}
 
-	@Override
-	public void actualizarUsuario(UsuarioDTO u) {
+	public void actualizarUsuario(List<UsuarioDTO> listado, int fila, int columna) {
 		// TODO Auto-generated method stub
-		String sql = "UPDATE datosComercio set nombre=? where id=?";
-		try {
-			PreparedStatement s = conexion.prepareStatement(sql);
-			s.setString(1, u.getEstablecimiento());
-			s.executeUpdate();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+		switch (columna) {
+		case 1:
+			try {
+				String sql = "UPDATE datosComercio set establecimiento=? where id=?";
+				PreparedStatement s = conexion.prepareStatement(sql);
+				s.setString(1,listado.get(fila).getEstablecimiento());
+				s.setInt(2, listado.get(fila).getId());
+				s.executeUpdate();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		case 2:
+			try {
+				String sql = "UPDATE datosComercio set actividad=? where id=?";
+				PreparedStatement s = conexion.prepareStatement(sql);
+				s.setString(1,listado.get(fila).getActividad());
+				s.setInt(2, listado.get(fila).getId());
+				s.executeUpdate();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		case 3:
+			try {
+				String sql = "UPDATE datosComercio set direccion=? where id=?";
+				PreparedStatement s = conexion.prepareStatement(sql);
+				s.setString(1,listado.get(fila).getDireccion());
+				s.setInt(2, listado.get(fila).getId());
+				s.executeUpdate();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		case 4:
+			try {
+				String sql = "UPDATE datosComercio set telefono=? where id=?";
+				PreparedStatement s = conexion.prepareStatement(sql);
+				s.setInt(1,listado.get(fila).getTelefono());
+				s.setInt(2, listado.get(fila).getId());
+				s.executeUpdate();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			break;
+		default:
+			break;
 		}
+		
 
 	
 	}
-
-	@Override
-	public UsuarioDTO getUsuarioDTO(String dni) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<UsuarioDTO> getComercios() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
 }

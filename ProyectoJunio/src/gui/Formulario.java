@@ -3,27 +3,18 @@ package gui;
 import bbdd.*;
 
 import java.awt.EventQueue;
-
 import javax.swing.JFrame;
-
 import java.awt.BorderLayout;
-
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
-
-import java.awt.Component;
-
-import javax.swing.Box;
 import javax.swing.JButton;
 import javax.swing.JPanel;
-
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 import java.util.List;
-
 import javax.swing.JScrollPane;
 
 public class Formulario {
@@ -62,7 +53,7 @@ public class Formulario {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 650, 270);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(new BorderLayout(0, 0));
 		
@@ -96,9 +87,7 @@ public class Formulario {
 		
 		JButton btnUpdate = new JButton("Actualizar Campo");
 		scrollPane.setRowHeaderView(btnUpdate);
-		
-		
-		
+				
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 		
@@ -108,18 +97,11 @@ public class Formulario {
 		JMenuItem mntmCargaBBDD = new JMenuItem("Cargar base de datos");
 		mntmCargaBBDD.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-
 				UsuarioDAOImp uImp = new UsuarioDAOImp();
-				listado = uImp.getUsuario();
-				
-				System.out.println(listado);
-				
-				modelo = new MiTablaModel(listado);
-				
+				listado = uImp.getUsuario();				
+				modelo = new MiTablaModel(listado);				
 				table = new JTable(modelo);
 				scrollPane.setViewportView(table);
-				
-
 			}
 		});
 		mnArchivo.add(mntmCargaBBDD);

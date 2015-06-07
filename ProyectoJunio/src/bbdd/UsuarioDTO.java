@@ -7,7 +7,7 @@
 package bbdd;
 
 public class UsuarioDTO {
-
+	private int id;
 	private String establecimiento;
 	private String actividad;
 	private String direccion;
@@ -18,14 +18,26 @@ public class UsuarioDTO {
 	 * @param direccion
 	 * @param telefono
 	 */
-	public UsuarioDTO(String establecimiento, String actividad,
+	public UsuarioDTO(int id, String establecimiento, String actividad,
 			String direccion, int telefono) {
+		this.id = id;
 		this.establecimiento = establecimiento;
 		this.actividad = actividad;
 		this.direccion = direccion;
 		this.telefono = telefono;
 	}
-	
+	/**
+	 * @return the establecimiento
+	 */
+	public int getId() {
+		return id;
+	}
+	/**
+	 * @param establecimiento the establecimiento to set
+	 */
+	public void setId(int id) {
+		this.id = id;
+	}
 	/**
 	 * @return the establecimiento
 	 */
@@ -79,9 +91,9 @@ public class UsuarioDTO {
 	 */
 	@Override
 	public String toString() {
-		return "UsuarioDTO establecimiento: " + establecimiento + ", actividad: "
-				+ actividad + ", direccion: " + direccion + ", telefono: "
-				+ telefono + "\n";
+		return "UsuarioDTO id=" + id + ", establecimiento=" + establecimiento
+				+ ", actividad=" + actividad + ", direccion=" + direccion
+				+ ", telefono=" + telefono;
 	}
-		
+	
 }

@@ -4,12 +4,13 @@ import bbdd.*;
 
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
 public class MiTablaModel extends AbstractTableModel{
-	
+
 	private List<UsuarioDTO> listadoAux;
-	private String[] cabecera = {"Establecimiento", "Actividad", "Direccion", "Telefono"};
+	private String[] cabecera = {"Id", "Establecimiento", "Actividad", "Direccion", "Telefono"};
 	private int numerodefilas=10;
 	private int indice=0;
 	
@@ -36,7 +37,7 @@ public class MiTablaModel extends AbstractTableModel{
 	@Override
 	public int getColumnCount() {
 		// TODO Auto-generated method stub
-		return 4;
+		return 5;
 	}
 
 	@Override
@@ -63,15 +64,22 @@ public class MiTablaModel extends AbstractTableModel{
 		String celda = (String) usuario;
 		switch (columna) {
 		case 0:
-			aux.setEstablecimiento(celda);
+			JOptionPane.showMessageDialog(null, "Esta columna no es modificable", "Error", JOptionPane.INFORMATION_MESSAGE);
 			break;
 		case 1:
-			aux.setActividad(celda);
+			aux.setEstablecimiento(celda);
+			
+			System.out.println("fila: "+(fila+indice)+" columna: "+columna);
 			break;
 		case 2:
-			aux.setDireccion(celda);
+			aux.setActividad(celda);
+			System.out.println("fila: "+(fila+indice)+" columna: "+columna);
 			break;
 		case 3:
+			aux.setDireccion(celda);
+			System.out.println("fila: "+(fila+indice)+" columna: "+columna);
+			break;
+		case 4:
 			try{
 				aux.setTelefono(Integer.parseInt(celda));
 				break;
@@ -89,12 +97,14 @@ public class MiTablaModel extends AbstractTableModel{
 		UsuarioDTO aux = listadoAux.get(fila+indice);
 		switch (columna) {
 		case 0:
-			return aux.getEstablecimiento();
+			return aux.getId();
 		case 1:
-			return aux.getActividad();
+			return aux.getEstablecimiento();
 		case 2:
-			return aux.getDireccion();
+			return aux.getActividad();
 		case 3:
+			return aux.getDireccion();
+		case 4:
 			return aux.getTelefono();
 		default:
 			return "";
