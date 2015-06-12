@@ -1,7 +1,6 @@
 package gui;
 
 import bbdd.*;
-
 import java.awt.EventQueue;
 import javax.swing.JFrame;
 import java.awt.BorderLayout;
@@ -21,7 +20,7 @@ public class Formulario {
 
 	private JFrame frame;
 	private JTable table;
-	private MiTablaModel modelo;
+	private MiTablaModel modelo = null;
 	private List<UsuarioDTO> listado;
 
 	/**
@@ -61,6 +60,7 @@ public class Formulario {
 		frame.getContentPane().add(panelSur, BorderLayout.SOUTH);
 		
 		JButton btnAnterior = new JButton("Anterior");
+		btnAnterior.setEnabled(false);
 		btnAnterior.addActionListener(new ActionListener() {
 			
 			@Override
@@ -72,6 +72,7 @@ public class Formulario {
 		panelSur.add(btnAnterior);
 		
 		JButton btnSiguiente = new JButton("Siguiente");
+		btnSiguiente.setEnabled(false);
 		btnSiguiente.addActionListener(new ActionListener() {
 			
 			@Override
@@ -84,14 +85,11 @@ public class Formulario {
 		
 		JScrollPane scrollPane = new JScrollPane();
 		frame.getContentPane().add(scrollPane, BorderLayout.CENTER);
-		
-		JButton btnUpdate = new JButton("Actualizar Campo");
-		scrollPane.setRowHeaderView(btnUpdate);
 				
 		JMenuBar menuBar = new JMenuBar();
 		frame.setJMenuBar(menuBar);
 		
-		JMenu mnArchivo = new JMenu("Archivo");
+		JMenu mnArchivo = new JMenu("Archivo");	
 		menuBar.add(mnArchivo);
 		
 		JMenuItem mntmCargaBBDD = new JMenuItem("Cargar base de datos");
@@ -99,15 +97,15 @@ public class Formulario {
 			public void actionPerformed(ActionEvent e) {
 				UsuarioDAOImp uImp = new UsuarioDAOImp();
 				listado = uImp.getUsuario();				
-				modelo = new MiTablaModel(listado);				
+				modelo = new MiTablaModel(listado, uImp);				
 				table = new JTable(modelo);
 				scrollPane.setViewportView(table);
+				btnAnterior.setEnabled(true);
+				btnSiguiente.setEnabled(true);
+				
 			}
 		});
 		mnArchivo.add(mntmCargaBBDD);
-		
-		JMenuItem mntmGuardar = new JMenuItem("Guardar base de datos");
-		mnArchivo.add(mntmGuardar);
 		
 		JMenuItem mntmSalir = new JMenuItem("Salir");
 		mntmSalir.addActionListener(new ActionListener() {

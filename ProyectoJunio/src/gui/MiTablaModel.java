@@ -7,15 +7,20 @@ import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
-public class MiTablaModel extends AbstractTableModel{
+
+@SuppressWarnings("serial")
+public class MiTablaModel extends AbstractTableModel {
 
 	private List<UsuarioDTO> listadoAux;
 	private String[] cabecera = {"Id", "Establecimiento", "Actividad", "Direccion", "Telefono"};
 	private int numerodefilas=10;
 	private int indice=0;
+	private UsuarioDAOImp usuarioDAO;
 	
-	public MiTablaModel(List<UsuarioDTO> lista){
+	
+	public MiTablaModel(List<UsuarioDTO> lista, UsuarioDAOImp dao){
 		this.listadoAux = lista;
+		this.usuarioDAO = dao;
 	}
 	
 	public void incrementa(){
@@ -23,7 +28,6 @@ public class MiTablaModel extends AbstractTableModel{
 			indice+=numerodefilas;
 			fireTableChanged(null);
 		}
-		
 	}
 	
 	public void decrementa(){
@@ -31,7 +35,6 @@ public class MiTablaModel extends AbstractTableModel{
 			indice-=numerodefilas;
 			fireTableChanged(null);
 		}
-		
 	}
 	
 	@Override
@@ -62,31 +65,34 @@ public class MiTablaModel extends AbstractTableModel{
 		// TODO Auto-generated method stub
 		UsuarioDTO aux = listadoAux.get(fila+indice);
 		String celda = (String) usuario;
+		
 		switch (columna) {
 		case 0:
 			JOptionPane.showMessageDialog(null, "Esta columna no es modificable", "Error", JOptionPane.INFORMATION_MESSAGE);
 			break;
 		case 1:
 			aux.setEstablecimiento(celda);
-			
-			System.out.println("fila: "+(fila+indice)+" columna: "+columna);
+			usuarioDAO.actualizarUsuario(listadoAux, (fila+indice), columna);
 			break;
 		case 2:
 			aux.setActividad(celda);
-			System.out.println("fila: "+(fila+indice)+" columna: "+columna);
+			usuarioDAO.actualizarUsuario(listadoAux, (fila+indice), columna);
 			break;
 		case 3:
 			aux.setDireccion(celda);
-			System.out.println("fila: "+(fila+indice)+" columna: "+columna);
+			usuarioDAO.actualizarUsuario(listadoAux, (fila+indice), columna);
 			break;
 		case 4:
-			try{
-				aux.setTelefono(Integer.parseInt(celda));
-				break;
-			} catch (Exception e) {
-				// TODO: handle exception
-			}
-			
+			try {
+				if(celda.matches(".*[0-9].*") && Integer.parseInt(celda)>0){
+					aux.setTelefono(Integer.parseInt(celda));
+					usuarioDAO.actualizarUsuario(listadoAux, (fila+indice), columna);
+					break;	
+				}
+				
+			} catch (Exception ex){
+				ex.printStackTrace();
+			}	
 		default:
 		}
 	}

@@ -17,7 +17,6 @@ public class Conexion {
 		try {
 			Class.forName("org.sqlite.JDBC");
 			conexion = DriverManager.getConnection(nombreBD, config.toProperties());
-			System.out.println("Establecida conexión con BD");
 		} catch (ClassNotFoundException | SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -29,7 +28,6 @@ public class Conexion {
 		if (conexion != null)
 			try {
 				conexion.close();
-				System.out.println("Desconectado de la BD");
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
